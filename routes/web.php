@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\LogAcessoMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,8 +20,8 @@ Route::get('/contato', 'App\Http\Controllers\ContatoController@contato')->name('
 Route::post('/contato', 'App\Http\Controllers\ContatoController@salvar')->name('site.contato');
 Route::get('/login','App\Http\Controllers\LoginController@login')->name('site.login');
 
-Route::prefix('/app')->group(function(){
-    Route::get('/cliente','App\Http\Controllers\ClienteController@cliente')->name('app.cliente');
+Route::middleware('autenticacao:padrao,visitante')->prefix('/app')->group(function(){
+    Route::get('/clientes','App\Http\Controllers\ClienteController@cliente')->name('app.cliente');
 
     Route::get('/fornecedores','App\Http\Controllers\FornecedoresController@index')->name('app.fornecedores');
     

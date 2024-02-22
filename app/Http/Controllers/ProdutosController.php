@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class ProdutosControllers extends Controller
+class ProdutosController extends Controller
 {
-    //
+    public function produtos(){
+
+        return 'Produtos';
+    }
+    
 }
