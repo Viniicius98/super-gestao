@@ -17,21 +17,12 @@ class AutenticacaoMiddleware
     public function handle(Request $request, Closure $next,$medoto_autenticacao,$perfil)
 
     {
-        echo $medoto_autenticacao.' - '.$perfil.'<br>';
+        session_start();
 
-        if($medoto_autenticacao=='padrao'){
-            echo 'verificar o usuario e senha no banco de dados'.$perfil.'<br>';
-        }
-
-        if($medoto_autenticacao == 'ldap'){
-            echo 'Verificar o usuário e senha no AD'.$perfil.'<br>';
-        }
-
-
-        if(false){
+        if(isset($_SESSION['email']) && $_SESSION['email'] != ''){
             return $next($request);
-        }else{
-            return response('Acesso negado, rota precisa de autenticação');
+        }else {
+            return redirect()->route('site.login',['erro'=>'2']);
         }
         
     }

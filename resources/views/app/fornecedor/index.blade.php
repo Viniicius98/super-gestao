@@ -1,51 +1,34 @@
-<h3>Fornecedor(view)</h3>
-
-{{-- Comentário --}}
-
-@php
-    
-   /* if(){
-
-    }elseif(){
-
-    }else{
-        
-    }*/
+@extends('app.layouts.basico')
 
 
-@endphp
+@section('titulo','Fornecedor')
 
+@section('conteudo')
 
-{{-- o Unless executa se o retorno for false --}}
-@isset($fornecedores)
+    <div class="conteudo-pagina">
+        <div class="titulo-pagina-2">
+            <p>Fornecedor</p>
+        </div>
 
-    @forelse ($fornecedores as $indice => $fornecedor)
-        Interação Atual :{{$loop->iteration}}
-        <br>
-        Fornecedor: {{$fornecedor['nome']}}
-        <br>
-        Status: {{$fornecedor['status']}}
-        <br>
-        CNPJ: {{$fornecedor['CNPJ'] ?? 'Dado não preenchido'}}
-        <br>
-        Telefone: ({{$fornecedor['ddd'] ?? 'DDD não informado'}}) {{$fornecedor['telefone'] ?? 'Telefone não informado'}}
-         <br>
-        @if($loop->first)
-            Primeira Interação
-        @endif
+        <div class="menu">
+            <ul>
+                <li><a href="{{route('app.fornecedor.adicionar')}}">Novo</a></li>
+                <li><a href="{{route('app.fornecedor')}}">Consulta</a></li>
+            </ul>
+        </div>
 
-        @if($loop->last)
-            Ultima Interação
-            <br>
-            Total de Registros {{$loop->count}}
-        @endif
-         
-         <hr>
-        @empty
-            Nao existe fornecedores cadastrados
-    @endforelse
-        
-@endisset
+        <div class="informacao-pagina">
+            <div style="width:30%; margin-left:auto; margin-right:auto">
+                <form method="post" action="{{route('app.fornecedor.listar')}}">
+                @csrf
+                    <input type="text" name="nome" placeholder="Nome" class="borda-preta">
+                    <input type="text" name="site" placeholder="Site" class="borda-preta">
+                    <input type="text" name="uf" placeholder="UF" class="borda-preta">
+                    <input type="text" name="email" placeholder="E-mail" class="borda-preta">
+                    <button type="submit" class="borda-preta">Pesquisar</button>
+                </form>
+            </div>
+        </div>
 
-<br>
-
+    </div>
+@endsection

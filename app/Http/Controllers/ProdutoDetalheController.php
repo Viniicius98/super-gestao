@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cliente;
+use App\Models\ItemDetalhe;
+use App\Models\ProdutoDetalhe;
+use App\Models\Unidade;
 use Illuminate\Http\Request;
 
-class ClienteController extends Controller
+class ProdutoDetalheController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $clientes = Cliente::paginate(10);
-        return view('app.cliente.index',['clientes'=>$clientes,'request'=>$request->all()]);
+        //
     }
 
     /**
@@ -25,9 +26,9 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        return view('app.cliente.create');
+        $unidades = Unidade::all();
+        return view('app.produto_detalhe.create',['unidades'=>$unidades]);
     }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -36,25 +37,9 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        $regras = [
-            'nome' => 'required|min:3|max:40'
-        ];
+        ProdutoDetalhe::create($request->all());
 
-        $feedback = [
-            'nome.required' => 'O campo nome deve ser preenchido',
-            'nome.min' => 'O campo nome dever ter no minimo 3 caracteres',
-            'nome.max' => 'O campo nome dever ter no maximo 4 caracteres',
-        ];
-
-        $request->validate($regras,$feedback);
-
-        $cliente = new Cliente();
-
-        $cliente->nome = $request->get('nome');
-
-        $cliente->save();
-
-        return redirect()->route('cliente.index');
+        echo ' cadastrao feito';
     }
 
     /**
@@ -76,7 +61,9 @@ class ClienteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $produto_detalhe = ItemDetalhe::find($id);
+        $unidades = Unidade::all();
+        return view('app.produto_detalhe.edit',['produto_detalhe'=>$produto_detalhe,'unidades'=>$unidades]);
     }
 
     /**
@@ -86,9 +73,11 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ProdutoDetalhe $produto_detalhe)
     {
-        //
+        $produto_detalhe->update($request->all());
+
+        echo 'Atualização realizada com sucesso';
     }
 
     /**
